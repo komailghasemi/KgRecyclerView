@@ -177,11 +177,28 @@ class KgRecyclerView @JvmOverloads constructor(
         }
     }
 
-    fun addOnScrollListener(listener : RecyclerView.OnScrollListener) {
+    fun enableEndlessRecyclerView(atEnd: () -> Unit) {
+        recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (!recyclerView.canScrollVertically(1) && !isLoading &&
+                    (recyclerView.adapter?.itemCount ?: 0) >= (getAdapter()!!.itemCount - 3)
+                ) {
+                    isLoading = true
+                    noData.hide()
+                    loadingView.show()
+                    recyclerView.post {
+                        atEnd()
+                    }
+                }
+            }
+        })
+    }
+
+    fun addOnScrollListener(listener: RecyclerView.OnScrollListener) {
         recycler.addOnScrollListener(listener)
     }
 
-    fun removeOnScrollListener(listener : RecyclerView.OnScrollListener) {
+    fun removeOnScrollListener(listener: RecyclerView.OnScrollListener) {
         recycler.removeOnScrollListener(listener)
     }
 
