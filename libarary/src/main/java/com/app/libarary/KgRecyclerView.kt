@@ -177,20 +177,12 @@ class KgRecyclerView @JvmOverloads constructor(
         }
     }
 
-    fun enableEndlessRecyclerView(callAfterPosition: Int? = null, atEnd: () -> Unit) {
+    fun addOnScrollListener(listener : RecyclerView.OnScrollListener) {
+        recycler.addOnScrollListener(listener)
+    }
 
-        recycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (!recyclerView.canScrollVertically(1) && !isLoading && (recyclerView.adapter?.itemCount
-                        ?: 0) >= callAfterPosition ?: (getAdapter()!!.itemCount - 3)
-                ) {
-                    isLoading = true
-                    noData.hide()
-                    loadingView.show()
-                    atEnd()
-                }
-            }
-        })
+    fun removeOnScrollListener(listener : RecyclerView.OnScrollListener) {
+        recycler.removeOnScrollListener(listener)
     }
 
     // Activity | Fragment Destroyed
