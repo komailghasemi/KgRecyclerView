@@ -147,6 +147,8 @@ class KgRecyclerView @JvmOverloads constructor(
         recycler.layoutManager = lm
     }
 
+    fun getLayoutManager() = recycler.layoutManager
+
     fun setAdapter(adapter: RecyclerView.Adapter<*>) {
         if (recycler.adapter != null) {
             recycler.adapter?.unregisterAdapterDataObserver(onDataChangedObserver!!)
