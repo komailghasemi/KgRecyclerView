@@ -6,10 +6,14 @@ import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.ProgressBar
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -138,9 +142,12 @@ class KgRecyclerView @JvmOverloads constructor(
         recycler.isNestedScrollingEnabled = enable
     }
 
-    fun animation(isEnable: Boolean) {
+    fun isAnimationEnable(isEnable: Boolean) {
         (recycler.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = isEnable
+    }
 
+    fun setAnimation(animResId : Int){
+        recycler.layoutAnimation = LayoutAnimationController(AnimationUtils.loadAnimation(context ,animResId))
     }
 
     fun setLayoutManager(lm: RecyclerView.LayoutManager = LinearLayoutManager(context)) {
